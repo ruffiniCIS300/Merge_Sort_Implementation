@@ -14,15 +14,77 @@ namespace Ksu.Cis300.SortLibrary.Tests
     public class SortTests
     {
         /// <summary>
-        /// Tests SelectionSort on a 10-element array.
+        /// Tests sorting a 1-element array.
         /// </summary>
         [Test, Timeout(1000)]
-        public void TestASelectionSortSmall()
+        public void TestASortOne()
+        {
+            int[] data = new int[] { 1 };
+            int[] result = new int[] { 1 };
+            Sort.MergeSort(result);
+            Assert.That(result, Is.EquivalentTo(data));
+        }
+
+        /// <summary>
+        /// Tests sorting a 2-element unordered array.
+        /// </summary>
+        [Test, Timeout(1000)]
+        public void TestBSortTwoUnordered()
+        {
+            int[] data = new int[] { 7, 2 };
+            int[] result = new int[2];
+            data.CopyTo(result, 0);
+            Sort.MergeSort(result);
+            Assert.That(result, Is.Ordered.And.EquivalentTo(data));
+        }
+
+        /// <summary>
+        /// Tests sorting a 2-element ordered array.
+        /// </summary>
+        [Test, Timeout(1000)]
+        public void TestBSortTwoOrdered()
+        {
+            int[] data = new int[] { 2, 7 };
+            int[] result = (int[])data.Clone();
+            Sort.MergeSort(result);
+            Assert.That(result, Is.Ordered.And.EquivalentTo(data));
+        }
+
+        /// <summary>
+        /// Tests sorting a 4-element array in which neither half contains elements less
+        /// than all the elements in the other half.
+        /// </summary>
+        [Test, Timeout(1000)]
+        public void TestCSortFourMixed()
+        {
+            int[] data = new int[] { 7, 2, 5, 3 };
+            int[] result = (int[])data.Clone();
+            Sort.MergeSort(result);
+            Assert.That(result, Is.Ordered.And.EquivalentTo(data));
+        }
+
+        /// <summary>
+        /// Tests sorting a 4-element array in reverse order.
+        /// </summary>
+        [Test, Timeout(1000)]
+        public void TestCSortFourReversed()
+        {
+            int[] data = new int[] { 7, 5, 3, 2 };
+            int[] result = (int[])data.Clone();
+            Sort.MergeSort(result);
+            Assert.That(result, Is.Ordered.And.EquivalentTo(data));
+        }
+
+        /// <summary>
+        /// Tests sorting a 10-element array.
+        /// </summary>
+        [Test, Timeout(1000)]
+        public void TestDSortTen()
         {
             int[] data = new int[] { 3, -7, 0, 11, -7, 8, 4, 8, -2, 6 };
             int[] result = new int[data.Length];
             data.CopyTo(result, 0);
-            Sort.SelectionSort(result);
+            Sort.MergeSort(result);
             Assert.That(result, Is.Ordered.And.EquivalentTo(data));
         }
 
@@ -44,67 +106,41 @@ namespace Ksu.Cis300.SortLibrary.Tests
         }
 
         /// <summary>
-        /// Tests SelectionSort on a random list of 100 elements.
+        /// Tests sorting a random list of 100 elements.
         /// </summary>
         [Test, Timeout(1000)]
-        public void TestBSelectionSort100()
+        public void TestESort100()
         {
             List<int> data = new List<int>();
             List<int> result = new List<int>();
             Initialize(data, result, 100);
-            Sort.SelectionSort(result);
+            Sort.MergeSort(result);
             Assert.That(result, Is.Ordered.And.EquivalentTo(data));
         }
 
-        [Test, Timeout(20000)]
+        [Test, Timeout(1000)]
         /// <summary>
-        /// Tests SelectionSort on a random list of 30000 elements.
+        /// Tests sorting a random list of 30000 elements.
         /// </summary>
-        public void TestCSelectionSort30000()
+        public void TestFSort30000()
         {
             List<int> data = new List<int>();
             List<int> result = new List<int>();
             Initialize(data, result, 30000);
-            Sort.SelectionSort(result);
+            Sort.MergeSort(result);
             Assert.That(result, Is.Ordered);
         }
 
         /// <summary>
-        /// Tests InsertionSort on a 10-element array.
+        /// Tests sorting a random list of one million elements.
         /// </summary>
-        [Test, Timeout(1000)]
-        public void TestDInsertionSortSmall()
-        {
-            int[] data = new int[] { 3, -7, 0, 11, -7, 8, 4, 8, -2, 6 };
-            int[] result = new int[data.Length];
-            data.CopyTo(result, 0);
-            Sort.InsertionSort(result);
-            Assert.That(result, Is.Ordered.And.EquivalentTo(data));
-        }
-
-        /// <summary>
-        /// Tests InsertionSort on a random list of 100 elements.
-        /// </summary>
-        [Test, Timeout(1000)]
-        public void TestEInsertionSort100()
+        [Test, Timeout(5000)]
+        public void TestGSortMillion()
         {
             List<int> data = new List<int>();
             List<int> result = new List<int>();
-            Initialize(data, result, 100);
-            Sort.InsertionSort(result);
-            Assert.That(result, Is.Ordered.And.EquivalentTo(data));
-        }
-
-        [Test, Timeout(20000)]
-        /// <summary>
-        /// Tests InsertionSort on a random list of 30000 elements.
-        /// </summary>
-        public void TestFInsertionSort30000()
-        {
-            List<int> data = new List<int>();
-            List<int> result = new List<int>();
-            Initialize(data, result, 30000);
-            Sort.InsertionSort(result);
+            Initialize(data, result, 1000000);
+            Sort.MergeSort(result);
             Assert.That(result, Is.Ordered);
         }
     }
